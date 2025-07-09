@@ -8,9 +8,13 @@ const modalClose = $(".modal-close");
 const btnCancel = $(".btn-cancel");
 const todoForm = $(".todo-app-form");
 const todoList = $("#todoList");
+const titleInput = document.getElementById("taskTitle");
 
 function openForm() {
     modalopen.className += " show";
+    setTimeout(() => {
+        titleInput.focus();
+    }, 100);
 }
 function closeForm() {
     modalopen.className = "modal-overlay";
@@ -27,6 +31,7 @@ todoForm.onsubmit = function(e) {
     const newTask = Object.fromEntries(new FormData(todoForm));
     newTask.isCompleted = false;
     tasks.unshift(newTask);
+    closeForm();
     renderTasks(tasks);
 }
 
