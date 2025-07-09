@@ -24,17 +24,17 @@ addBtn.onclick = openForm;
 modalClose.onclick = closeForm;
 btnCancel.onclick = closeForm;
 
-const tasks = []; 
+const tasks = JSON.parse(localStorage.getItem("todoTasks")) ?? [];
 
 todoForm.onsubmit = function(e) {
     e.preventDefault();
     const newTask = Object.fromEntries(new FormData(todoForm));
     newTask.isCompleted = false;
-    tasks.unshift(newTask);
+    tasks.push(newTask);
+    localStorage.setItem("todoTasks", JSON.stringify(tasks));
     closeForm();
     renderTasks(tasks);
 }
-
 
 function renderTasks(tasks) {
     const html = tasks.map(task => `
@@ -66,3 +66,5 @@ function renderTasks(tasks) {
 
     todoList.innerHTML = html;
 }
+
+renderTasks(tasks);
