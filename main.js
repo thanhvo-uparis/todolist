@@ -38,6 +38,11 @@ todoForm.onsubmit = function(e) {
 }
 
 function renderTasks(tasks) {
+    if (!tasks.length) {
+        todoList.innerHTML = `
+            <p>There are no tasks yet. Add New Task!</p>
+        `
+    }
     const html = tasks.map(task => `
          <div class="task-card ${task.cardColor} ${task.isCompleted ? "completed" : ""}">
             <div class="task-header">
@@ -51,7 +56,7 @@ function renderTasks(tasks) {
                         </div>
                         <div class="dropdown-item complete">
                             <i class="fa-solid fa-check fa-icon"></i>
-                            Mark as Active
+                            ${task.isCompleted ? "Mark as Active" : "Mark as Complete"}
                         </div>
                         <div class="dropdown-item delete">
                             <i class="fa-solid fa-trash fa-icon"></i>
