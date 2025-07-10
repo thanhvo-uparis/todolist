@@ -42,6 +42,7 @@ function renderTasks(tasks) {
         todoList.innerHTML = `
             <p>There are no tasks yet. Add New Task!</p>
         `
+        return;
     }
     const html = tasks.map(task => `
          <div class="task-card ${task.cardColor} ${task.isCompleted ? "completed" : ""}">
