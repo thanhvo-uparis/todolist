@@ -10,6 +10,8 @@ const todoForm = $(".todo-app-form");
 const todoList = $("#todoList");
 const titleInput = document.getElementById("taskTitle");
 const editBouttons = $$(".edit-btn");
+const modalTitle = $(".modal-title");
+const editBtn = $(".btn-edit");
 
 function openForm() {
     modalopen.className += " show";
@@ -81,7 +83,22 @@ renderTasks(tasks);
 todoList.onclick = function(event) {
     const indexCard = event.target.closest(".edit-btn");
     if (indexCard) {
-        console.log(indexCard.dataset.index);
+        const index = indexCard.dataset.index;
         openForm();
+        loadTaskToForm(index);
     }
+}
+
+function loadTaskToForm(index) {
+    const task = tasks[index];
+    for (const key in task) {
+        const value = task[key];
+        // const field = todoForm.elements[key];
+        const field = $(`[name=${key}]`);
+        if (field) {
+            field.value = value;
+        }
+    }
+    modalTitle.textContent = "Edit Task";
+    editBtn.textContent = "Save";
 }
