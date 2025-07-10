@@ -9,6 +9,7 @@ const btnCancel = $(".btn-cancel");
 const todoForm = $(".todo-app-form");
 const todoList = $("#todoList");
 const titleInput = document.getElementById("taskTitle");
+const editBouttons = $$(".edit-btn");
 
 function openForm() {
     modalopen.className += " show";
@@ -44,14 +45,14 @@ function renderTasks(tasks) {
         `
         return;
     }
-    const html = tasks.map(task => `
+    const html = tasks.map((task, index) => `
          <div class="task-card ${task.cardColor} ${task.isCompleted ? "completed" : ""}">
             <div class="task-header">
                 <h3 class="task-title">${task.title}</h3>
                 <button class="task-menu">
                     <i class="fa-solid fa-ellipsis fa-icon"></i>
                     <div class="dropdown-menu">
-                        <div class="dropdown-item">
+                        <div class="dropdown-item edit-btn" data-index="${index}">
                             <i class="fa-solid fa-pen-to-square fa-icon"></i>
                             Edit
                         </div>
@@ -75,3 +76,12 @@ function renderTasks(tasks) {
 }
 
 renderTasks(tasks);
+
+//EDIT
+todoList.onclick = function(event) {
+    const indexCard = event.target.closest(".edit-btn");
+    if (indexCard) {
+        console.log(indexCard.dataset.index);
+        openForm();
+    }
+}
