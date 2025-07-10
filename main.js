@@ -18,6 +18,7 @@ function openForm() {
 }
 function closeForm() {
     modalopen.className = "modal-overlay";
+    todoForm.reset();
 }
 
 addBtn.onclick = openForm;
