@@ -48,9 +48,9 @@ function renderTasks(tasks) {
         return;
     }
     const html = tasks.map((task, index) => `
-         <div class="task-card ${task.cardColor} ${task.isCompleted ? "completed" : ""}">
+         <div class="task-card ${escapeHTML(task.cardColor)} ${task.isCompleted ? "completed" : ""}">
             <div class="task-header">
-                <h3 class="task-title">${task.title}</h3>
+                <h3 class="task-title">${escapeHTML(task.title)}</h3>
                 <button class="task-menu">
                     <i class="fa-solid fa-ellipsis fa-icon"></i>
                     <div class="dropdown-menu">
@@ -69,8 +69,8 @@ function renderTasks(tasks) {
                     </div>
                 </button>
             </div>
-            <p class="task-description">${task.description}</p>
-            <div class="task-time">${task.startTime} - ${task.endTime}</div>
+            <p class="task-description">${escapeHTML(task.description)}</p>
+            <div class="task-time">${escapeHTML(task.startTime)} - ${escapeHTML(task.endTime)}</div>
         </div>
        `).join("");
 
@@ -101,4 +101,10 @@ function loadTaskToForm(index) {
     }
     modalTitle.textContent = "Edit Task";
     editBtn.textContent = "Save";
+}
+
+function escapeHTML(html) {
+    const div = document.createElement("div");
+    div.textContent = html;
+    return div.innerHTML;
 }
