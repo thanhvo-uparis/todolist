@@ -46,8 +46,8 @@ todoForm.onsubmit = function(e) {
     else {
         dataForm.isCompleted = false;
         tasks.push(dataForm);
-        localStorage.setItem("todoTasks", JSON.stringify(tasks));
     }
+    localStorage.setItem("todoTasks", JSON.stringify(tasks));
     closeForm();
     renderTasks(tasks);
 }
