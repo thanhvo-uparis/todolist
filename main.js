@@ -70,11 +70,11 @@ function renderTasks(tasks) {
                             <i class="fa-solid fa-pen-to-square fa-icon"></i>
                             Edit
                         </div>
-                        <div class="dropdown-item complete">
+                        <div class="dropdown-item complete" data-index="${index}">
                             <i class="fa-solid fa-check fa-icon"></i>
                             ${task.isCompleted ? "Mark as Active" : "Mark as Complete"}
                         </div>
-                        <div class="dropdown-item delete">
+                        <div class="dropdown-item delete-btn" data-index="${index}">
                             <i class="fa-solid fa-trash fa-icon"></i>
                             Delete
                         </div>
@@ -93,6 +93,19 @@ renderTasks(tasks);
 //EDIT
 todoList.onclick = function(event) {
     const elementSelected = event.target.closest(".edit-btn");
+    const deleteBtn = event.target.closest(".delete-btn");
+    //delete task
+    if (deleteBtn) {
+        const indexDelete = deleteBtn.dataset.index;
+        const cf = confirm(`Ban muon xoa task ${tasks[indexDelete]["title"]} ?`);
+        if (cf) {
+            tasks.splice(indexDelete, 1);
+            localStorage.setItem("todoTasks", JSON.stringify(tasks));
+            renderTasks(tasks);
+        }
+
+    }
+    // mở edit form theo task được chọn
     if (elementSelected) {
         const index = elementSelected.dataset.index;
         editIndex = index;
