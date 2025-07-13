@@ -3,7 +3,6 @@ const $$ = document.querySelectorAll.bind(document);
 
 const addBtn = $(".add-btn");
 const modalopen = $("#addTaskModal");
-const modalBtn = $(".modal-title");
 const modalClose = $(".modal-close");
 const btnCancel = $(".btn-cancel");
 const todoForm = $(".todo-app-form");
@@ -11,20 +10,26 @@ const todoList = $("#todoList");
 const titleInput = document.getElementById("taskTitle");
 const editBouttons = $$(".edit-btn");
 const modalTitle = $(".modal-title");
-const editBtn = $(".btn-edit");
+const btnActionForm = $(".btn-action");
 
-function openForm() {
+function openForm(isEdit=false, indexFiled=null) {
     modalopen.className += " show";
+    modalTitle.textContent = isEdit ? "Edit Task" : "Add New Task";
+    btnActionForm.textContent = isEdit ? "Save Task" : "Submit";
+    if (isEdit && (indexFiled !== null)) {
+        loadTaskToForm(indexFiled);
+    } else {todoForm.reset();} 
     setTimeout(() => {
         titleInput.focus();
     }, 100);
 }
+
 function closeForm() {
     modalopen.className = "modal-overlay";
     todoForm.reset();
 }
 
-addBtn.onclick = openForm;
+addBtn.onclick = () => openForm(false);
 modalClose.onclick = closeForm;
 btnCancel.onclick = closeForm;
 
@@ -76,16 +81,14 @@ function renderTasks(tasks) {
 
     todoList.innerHTML = html;
 }
-
 renderTasks(tasks);
 
 //EDIT
 todoList.onclick = function(event) {
-    const indexCard = event.target.closest(".edit-btn");
-    if (indexCard) {
-        const index = indexCard.dataset.index;
-        openForm();
-        loadTaskToForm(index);
+    const elementSelected = event.target.closest(".edit-btn");
+    if (elementSelected) {
+        const index = elementSelected.dataset.index;
+        openForm(true, index);
     }
 }
 
@@ -99,8 +102,7 @@ function loadTaskToForm(index) {
             field.value = value;
         }
     }
-    modalTitle.textContent = "Edit Task";
-    editBtn.textContent = "Save";
+    
 }
 
 function escapeHTML(html) {
