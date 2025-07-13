@@ -70,7 +70,7 @@ function renderTasks(tasks) {
                             <i class="fa-solid fa-pen-to-square fa-icon"></i>
                             Edit
                         </div>
-                        <div class="dropdown-item complete" data-index="${index}">
+                        <div class="dropdown-item complete-btn" data-index="${index}">
                             <i class="fa-solid fa-check fa-icon"></i>
                             ${task.isCompleted ? "Mark as Active" : "Mark as Complete"}
                         </div>
@@ -94,6 +94,7 @@ renderTasks(tasks);
 todoList.onclick = function(event) {
     const elementSelected = event.target.closest(".edit-btn");
     const deleteBtn = event.target.closest(".delete-btn");
+    const completeBtn = event.target.closest(".complete-btn");
     //delete task
     if (deleteBtn) {
         const indexDelete = deleteBtn.dataset.index;
@@ -104,6 +105,14 @@ todoList.onclick = function(event) {
             renderTasks(tasks);
         }
 
+    }
+
+    if (completeBtn) {
+        const indexCompleted = completeBtn.dataset.index;
+        tasks[indexCompleted]["isCompleted"] = !tasks[indexCompleted]["isCompleted"];
+        localStorage.setItem("todoTasks", JSON.stringify(tasks));
+        renderTasks(tasks);
+        
     }
     // mở edit form theo task được chọn
     if (elementSelected) {
