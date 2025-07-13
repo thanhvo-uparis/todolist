@@ -11,6 +11,7 @@ const titleInput = document.getElementById("taskTitle");
 const editBouttons = $$(".edit-btn");
 const modalTitle = $(".modal-title");
 const btnActionForm = $(".btn-action");
+let editIndex = null;
 
 function openForm(isEdit=false, indexFiled=null) {
     modalopen.className += " show";
@@ -27,6 +28,7 @@ function openForm(isEdit=false, indexFiled=null) {
 function closeForm() {
     modalopen.className = "modal-overlay";
     todoForm.reset();
+    editIndex = null;
 }
 
 addBtn.onclick = () => openForm(false);
@@ -37,10 +39,15 @@ const tasks = JSON.parse(localStorage.getItem("todoTasks")) ?? [];
 
 todoForm.onsubmit = function(e) {
     e.preventDefault();
-    const newTask = Object.fromEntries(new FormData(todoForm));
-    newTask.isCompleted = false;
-    tasks.push(newTask);
-    localStorage.setItem("todoTasks", JSON.stringify(tasks));
+    const dataForm = Object.fromEntries(new FormData(todoForm));
+    if (editIndex) {
+        tasks[editIndex] = dataForm;
+    }
+    else {
+        dataForm.isCompleted = false;
+        tasks.push(dataForm);
+        localStorage.setItem("todoTasks", JSON.stringify(tasks));
+    }
     closeForm();
     renderTasks(tasks);
 }
@@ -88,6 +95,7 @@ todoList.onclick = function(event) {
     const elementSelected = event.target.closest(".edit-btn");
     if (elementSelected) {
         const index = elementSelected.dataset.index;
+        editIndex = index;
         openForm(true, index);
     }
 }
