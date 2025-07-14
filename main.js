@@ -11,6 +11,7 @@ const titleInput = document.getElementById("taskTitle");
 const editBouttons = $$(".edit-btn");
 const modalTitle = $(".modal-title");
 const btnActionForm = $(".btn-action");
+const searchInput = $(".search-input");
 let editIndex = null;
 
 function openForm(isEdit=false, indexFiled=null) {
@@ -139,4 +140,13 @@ function escapeHTML(html) {
     const div = document.createElement("div");
     div.textContent = html;
     return div.innerHTML;
+}
+
+//search
+searchInput.oninput = (event) => {
+    const query = event.target.value.trim().toLowerCase();
+    const contentTask = tasks.filter(task => {
+        return task.title.toLowerCase().includes(query) || task.description.toLowerCase().includes(query)
+    });
+    renderTasks(contentTask);
 }
