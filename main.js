@@ -12,6 +12,7 @@ const editBouttons = $$(".edit-btn");
 const modalTitle = $(".modal-title");
 const btnActionForm = $(".btn-action");
 const searchInput = $(".search-input");
+const tabList = $(".tab-list");
 let editIndex = null;
 
 function openForm(isEdit=false, indexFiled=null) {
@@ -110,6 +111,9 @@ todoList.onclick = function(event) {
 
     if (completeBtn) {
         const indexCompleted = completeBtn.dataset.index;
+        console.log(indexCompleted);
+        console.log(tasks[indexCompleted]["isCompleted"]);
+
         tasks[indexCompleted]["isCompleted"] = !tasks[indexCompleted]["isCompleted"];
         localStorage.setItem("todoTasks", JSON.stringify(tasks));
         renderTasks(tasks);
@@ -150,3 +154,23 @@ searchInput.oninput = (event) => {
     });
     renderTasks(contentTask);
 }
+
+//lọc task theo điều kiện: hoàn thành, actif or all
+tabList.onclick = function(event) {
+    const tabCompleted = event.target.closest(".tab-completed");
+    const tabActive = event.target.closest(".tab-active");
+    const tabsAll = event.target.closest(".tabs-all");
+
+    if (tabCompleted) {
+        const listCompleted = tasks.filter(task => task.isCompleted === true)
+        renderTasks(listCompleted);
+    }
+    if (tabActive) {
+        const listActive = tasks.filter(task => task.isCompleted === false)
+        renderTasks(listActive);
+    }
+    if (tabsAll) {
+        renderTasks(tasks);
+    }
+}
+
